@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditActivity"
+    android:paddingHorizontal="@dimen/app_horizontal_padding"
+    android:layout_marginTop="40dp"
+    >
+
+    <ImageButton
+        android:id="@+id/btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/baseline_delete_24"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_text_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edit_text_title"
+        style="@style/CustomTextInputLayout"
+        android:layout_width="0dp"
+        app:layout_constraintEnd_toStartOf="@id/btn_delete"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="@dimen/editTextMargin"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/input_title"
+            style="@style/CustomTextInputEditText"
+            android:hint="Title"
+            android:inputType="text"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edit_text_desc"
+        style="@style/CustomTextInputLayout"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="120dp"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/input_desc"
+            style="@style/CustomTextInputEditText"
+            android:layout_height="match_parent"
+            android:hint="..."
+            android:inputType="text"
+            android:lines="10"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_save"
+        android:backgroundTint="@color/primary"
+        style="@style/CustomMaterialButton"
+        android:layout_marginBottom="30dp"
+        android:text="Save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_desc" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
