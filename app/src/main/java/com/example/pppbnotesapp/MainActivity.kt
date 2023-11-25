@@ -10,24 +10,25 @@ import com.example.pppbnotesapp.database.NoteDao
 import com.example.pppbnotesapp.database.NoteRoomDatabase
 import com.example.pppbnotesapp.databinding.ActivityMainBinding
 import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
-    private lateinit var executorService : ExecutorService
+    protected lateinit var executorService : ExecutorService
     private lateinit var mNotesDao : NoteDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        executorService = Executors.newSingleThreadExecutor()
+        executorService = MyExecutorService.executorService
+//        executorService = Executors.newSingleThreadExecutor()
+
         val db = NoteRoomDatabase.getDatabase(this)
         mNotesDao = db!!.noteDao()!!
 
-
+        getAllNotes()
         with(binding){
             btnAddNote.setOnClickListener {
                 val intentToEditActivity = Intent(this@MainActivity, EditActivity::class.java)

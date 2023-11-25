@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EditActivity"
-    android:paddingHorizontal="@dimen/app_horizontal_padding"
+    android:paddingHorizontal="40dp"
     android:layout_marginTop="40dp"
     >
 

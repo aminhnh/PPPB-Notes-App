@@ -3,6 +3,7 @@ package com.example.pppbnotesapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.example.pppbnotesapp.database.Note
 import com.example.pppbnotesapp.database.NoteDao
@@ -12,42 +13,44 @@ import com.example.pppbnotesapp.databinding.ActivityMainBinding
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.concurrent.ExecutorService
 
 class EditActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityEditBinding.inflate(layoutInflater)
     }
+    private lateinit var executorService : ExecutorService
     private lateinit var mNotesDao: NoteDao
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        executorService = MyExecutorService.executorService
+
         val db = NoteRoomDatabase.getDatabase(this)
         mNotesDao = db!!.noteDao()!!
 
-        val noteId = intent.getIntExtra("id", -1)
+        val noteId = intent.getIntExtra("id", 0)
 
         with(binding) {
-            if (noteId != -1) {
-
+            if (noteId != 0) {
                 mNotesDao.getNoteById(noteId).observe(this@EditActivity) { note ->
                     if (note != null) {
-                        with(binding) {
-                            inputTitle.setText(note.title)
-                            inputDesc.setText(note.description)
+                        inputTitle.setText(note.title)
+                        inputDesc.setText(note.description)
 
-                            btnSave.setOnClickListener {
-                                // Save the updated note and return to MainActivity
-                                val updatedNote = Note(
-                                    noteId,
-                                    inputTitle.text.toString(),
-                                    inputDesc.text.toString(),
-                                    getCurrentDate(),
-                                    getCurrentTime()
-                                )
-                                updateNoteAndReturn(updatedNote)
-                            }
+                        btnSave.setOnClickListener {
+                            // Save the updated note and return to MainActivity
+                            val updatedNote = Note(
+                                noteId,
+                                inputTitle.text.toString(),
+                                inputDesc.text.toString(),
+                                getCurrentDate(),
+                                getCurrentTime()
+                            )
+                            updateNoteAndReturn(updatedNote)
                         }
                     }
                 }
@@ -64,7 +67,7 @@ class EditActivity : AppCompatActivity() {
                 }
             }
             btnDelete.setOnClickListener {
-                if (noteId != -1) {
+                if (noteId != 0 ){
                     val emptyNote = Note(noteId, "", "", "", "")
                     deleteNoteAndReturn(emptyNote)
                 }
@@ -72,19 +75,17 @@ class EditActivity : AppCompatActivity() {
         }
 
     }
-
     private fun getCurrentDate(): String {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return dateFormat.format(Date())
     }
-
     private fun getCurrentTime(): String {
         val timeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
         return timeFormat.format(Date())
     }
     private fun insertNoteAndReturn(note: Note) {
         try {
-            mNotesDao.insert(note)
+            insert(note)
             Toast.makeText(this, "Note saved successfully", Toast.LENGTH_SHORT).show()
             returnToMainActivity()
         } catch (e: Exception) {
@@ -93,7 +94,7 @@ class EditActivity : AppCompatActivity() {
     }
     private fun updateNoteAndReturn(note: Note) {
         try {
-            mNotesDao.update(note)
+            update(note)
             Toast.makeText(this, "Note updated successfully", Toast.LENGTH_SHORT).show()
             returnToMainActivity()
         } catch (e: Exception) {
@@ -102,7 +103,7 @@ class EditActivity : AppCompatActivity() {
     }
     private fun deleteNoteAndReturn(note: Note) {
         try {
-            mNotesDao.delete(note)
+            delete(note)
             Toast.makeText(this, "Note deleted successfully", Toast.LENGTH_SHORT).show()
             returnToMainActivity()
         } catch (e: Exception) {
@@ -113,5 +114,14 @@ class EditActivity : AppCompatActivity() {
         val intentToMainActivity = Intent(this, MainActivity::class.java)
         startActivity(intentToMainActivity)
         finish()
+    }
+    private fun insert(note: Note) {
+        executorService.execute { mNotesDao.insert(note) }
+    }
+    private fun delete(note: Note) {
+        executorService.execute { mNotesDao.delete(note) }
+    }
+    private fun update(note: Note) {
+        executorService.execute { mNotesDao.update(note) }
     }
 }
