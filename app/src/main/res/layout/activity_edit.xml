@@ -5,69 +5,83 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EditActivity"
-    android:paddingHorizontal="40dp"
-    android:layout_marginTop="40dp"
+    android:background="@color/secondary"
     >
-
-    <ImageButton
-        android:id="@+id/btn_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/baseline_delete_24"
-        app:layout_constraintBottom_toBottomOf="@+id/edit_text_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/edit_text_title"
-        style="@style/CustomTextInputLayout"
-        android:layout_width="0dp"
-        app:layout_constraintEnd_toStartOf="@id/btn_delete"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="@dimen/editTextMargin"
+    <ScrollView
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
         >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="40dp"
+            >
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/input_title"
-            style="@style/CustomTextInputEditText"
-            android:hint="Title"
-            android:inputType="text"
-            android:maxLines="1" />
-    </com.google.android.material.textfield.TextInputLayout>
+            <ImageButton
+                android:id="@+id/btn_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/secondary"
+                android:src="@drawable/baseline_delete_24"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_text_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/edit_text_desc"
-        style="@style/CustomTextInputLayout"
-        android:layout_height="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="120dp"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_title"
-        app:layout_constraintBottom_toBottomOf="parent"
-        >
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/input_desc"
-            style="@style/CustomTextInputEditText"
-            android:layout_height="match_parent"
-            android:hint="..."
-            android:inputType="text"
-            android:lines="10"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edit_text_title"
+                style="@style/CustomTextInputLayout"
+                android:layout_width="0dp"
+                app:layout_constraintEnd_toStartOf="@id/btn_delete"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                >
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_save"
-        android:backgroundTint="@color/primary"
-        style="@style/CustomMaterialButton"
-        android:layout_marginBottom="30dp"
-        android:text="Save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_desc" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_title"
+                    style="@style/CustomTextInputEditText"
+                    android:hint="Title"
+                    android:inputType="text"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edit_text_desc"
+                style="@style/CustomTextInputLayout"
+                android:layout_height="500dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edit_text_title"
+                android:layout_marginTop="20dp"
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_desc"
+                    style="@style/CustomTextInputEditText"
+                    android:layout_height="match_parent"
+                    android:hint="Description"
+                    android:inputType="text"
+                    android:lines="10"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:gravity="top|start"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_save"
+                android:backgroundTint="@color/primary"
+                style="@style/CustomMaterialButton"
+                android:text="Save"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/edit_text_desc"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

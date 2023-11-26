@@ -22,4 +22,6 @@ interface NoteDao {
     @Query("SELECT * FROM note_table WHERE id = :noteId")
     fun getNoteById(noteId: Int): LiveData<Note>
 
+    @Query("SELECT * FROM note_table WHERE title LIKE '%' || :keyword || '%' OR description LIKE '%' || :keyword || '%'")
+    fun searchNotesByKeyword(keyword: String): List<Note>
 }

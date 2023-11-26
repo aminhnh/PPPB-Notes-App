@@ -3,13 +3,11 @@ package com.example.pppbnotesapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.example.pppbnotesapp.database.Note
 import com.example.pppbnotesapp.database.NoteDao
 import com.example.pppbnotesapp.database.NoteRoomDatabase
 import com.example.pppbnotesapp.databinding.ActivityEditBinding
-import com.example.pppbnotesapp.databinding.ActivityMainBinding
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -21,7 +19,6 @@ class EditActivity : AppCompatActivity() {
     }
     private lateinit var executorService : ExecutorService
     private lateinit var mNotesDao: NoteDao
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,13 +33,14 @@ class EditActivity : AppCompatActivity() {
 
         with(binding) {
             if (noteId != 0) {
+                // UPDATE NOTE
                 mNotesDao.getNoteById(noteId).observe(this@EditActivity) { note ->
                     if (note != null) {
                         inputTitle.setText(note.title)
                         inputDesc.setText(note.description)
 
                         btnSave.setOnClickListener {
-                            // Save the updated note and return to MainActivity
+                            // Save
                             val updatedNote = Note(
                                 noteId,
                                 inputTitle.text.toString(),
@@ -55,7 +53,7 @@ class EditActivity : AppCompatActivity() {
                     }
                 }
             } else {
-                // Add note
+                // ADD NOTE
                 btnSave.setOnClickListener {
                     val newNote = Note(
                         title = inputTitle.text.toString(),
@@ -84,21 +82,31 @@ class EditActivity : AppCompatActivity() {
         return timeFormat.format(Date())
     }
     private fun insertNoteAndReturn(note: Note) {
-        try {
-            insert(note)
-            Toast.makeText(this, "Note saved successfully", Toast.LENGTH_SHORT).show()
+        if (note.description.toString().isEmpty() && note.title.toString().isEmpty() ){
+            Toast.makeText(this, "Unable to save empty note", Toast.LENGTH_SHORT).show()
             returnToMainActivity()
-        } catch (e: Exception) {
-            Toast.makeText(this, "Error saving note", Toast.LENGTH_SHORT).show()
+        } else {
+            try {
+                insert(note)
+                Toast.makeText(this, "Note saved successfully", Toast.LENGTH_SHORT).show()
+                returnToMainActivity()
+            } catch (e: Exception) {
+                Toast.makeText(this, "Error saving note", Toast.LENGTH_SHORT).show()
+            }
         }
     }
     private fun updateNoteAndReturn(note: Note) {
-        try {
-            update(note)
-            Toast.makeText(this, "Note updated successfully", Toast.LENGTH_SHORT).show()
+        if (note.description.toString().isEmpty() && note.title.toString().isEmpty() ){
+            Toast.makeText(this, "Unable to save empty note", Toast.LENGTH_SHORT).show()
             returnToMainActivity()
-        } catch (e: Exception) {
-            Toast.makeText(this, "Error updating note", Toast.LENGTH_SHORT).show()
+        } else {
+            try {
+                update(note)
+                Toast.makeText(this, "Note updated successfully", Toast.LENGTH_SHORT).show()
+                returnToMainActivity()
+            } catch (e: Exception) {
+                Toast.makeText(this, "Error updating note", Toast.LENGTH_SHORT).show()
+            }
         }
     }
     private fun deleteNoteAndReturn(note: Note) {

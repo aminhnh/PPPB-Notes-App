@@ -10,7 +10,7 @@
     <style name="CustomTextInputLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="boxBackgroundColor">#EDEDED</item>
+        <item name="boxBackgroundColor">#FFFFFF</item>
         <item name="android:textColorHint">#828282</item>
         <item name="boxCornerRadiusTopStart">@dimen/input_corner_radius</item>
         <item name="boxCornerRadiusTopEnd">@dimen/input_corner_radius</item>
